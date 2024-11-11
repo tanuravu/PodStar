@@ -87,7 +87,6 @@ router.post("/logout",async(req,res)=>{
     res.json({message: "Logged out"});
 });
 
-
 // TO CHECK COOKIE IS PRESENT OR NOT
 router.get("/check-cookie", async (req, res) => {
     const token = req.cookies.podcasterUSerToken;
@@ -96,4 +95,6 @@ router.get("/check-cookie", async (req, res) => {
     }
     return res.status(200).json({ message: "false" });
 });
+
+
 module.exports=router;

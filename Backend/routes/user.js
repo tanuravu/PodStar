@@ -1,4 +1,5 @@
 const router=require("express").Router();
+const authMiddleware = require("../middleware/authMiddleware");
 const User= require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt=require("jsonwebtoken");
@@ -89,12 +90,24 @@ router.post("/logout",async(req,res)=>{
 
 // TO CHECK COOKIE IS PRESENT OR NOT
 router.get("/check-cookie", async (req, res) => {
-    const token = req.cookies.podcasterUSerToken;
+    const token = req.cookies.podcastUserToken;
     if (token) {
         return res.status(200).json({ message: "true" });
     }
     return res.status(200).json({ message: "false" });
 });
 
+//Route to fetch user details
+router.get("/user-details", authMiddleware, async (req, res) => {
+    try {
+        const { email } = req.user; // Corrected line
+        const existingUser = await User.findOne({ email: email }).select("-password");
+        return res.status(200).json({
+            user: existingUser
+        });
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }
+});
 
 module.exports=router;

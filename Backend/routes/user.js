@@ -97,7 +97,7 @@ router.get("/check-cookie", async (req, res) => {
     return res.status(200).json({ message: "false" });
 });
 
-//Route to fetch user details
+//Route to fetch user details.
 router.get("/user-details", authMiddleware, async (req, res) => {
     try {
         const { email } = req.user; // Corrected line

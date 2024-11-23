@@ -1,113 +1,125 @@
-const router=require("express").Router();
-const authMiddleware = require("../middleware/authMiddleware");
-const User= require("../models/user");
-const bcrypt = require("bcryptjs");
-const jwt=require("jsonwebtoken");
+//building user route
 
-//signup-route
-router.post("/sign-up",async (req,res) =>{
+const router = require("express").Router();
+const User = require("../models/user");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middleware/authMiddleware");
+
+//signup route
+router.post("/sign-up",async(req,res)=>{
     try{
-        const{username,email,password}=req.body;
-        if(!username||!email||!password){
-            return res.status(400).json({message:"All fields  are required"});
+        const{username,email,password} = req.body;
+        if(!username || !email || !password){
+            return res.status(400).json({message:"all fields are required"});
         }
         if(username.length<5){
-            return res.status(400).json({message:"Username must have 5 characters"});
+            return res.status(400).json({message:"username must have 5 characters"});
         }
         if(password.length<6){
-            return res.status(400).json({message:"Password must have 6 characters"});
+            return res.status(400).json({message:"password must have 6 characters"});
         }
 
-        //Check whether user exist or not:
-        const existingEmail= await User.findOne({email:email});
-        const existingUsername=await User.findOne({username:username});
-        if(existingEmail||existingUsername){
-            return res.status(400).json({message:"Username or Email already exist"})
+        // check user exists or not
+        const existingEmail = await User.findOne({email:email});
+        const existingUsername = await User.findOne({username:username});
+        if(existingEmail || existingUsername)
+        {
+            return res.status(400).json({message:"username or email already exists"});
         }
 
-        //Has the password
-        const salt =await bcrypt.genSalt(10);
-        const hashedPass=await bcrypt.hash(password,salt);
-        const newUser= new User({username,email,password:hashedPass});
+        // hash the password
+        const salt= await bcrypt.genSalt(10);
+        const hashedPass= await bcrypt.hash(password,salt);
+
+        const newUser= new User({username,email,password: hashedPass});
         await newUser.save();
-        return res.status(200).json({message:"Account created"})
-        }
-        catch(error){
+        return res.status(200).json({message:"Account created"});
+    }
+    catch(error){
         console.log(error);
-        res.status(500).json({error});
+        res.status(400).json({error});
     }
 });
 
-//signin-route
+// sign-in route
 router.post("/sign-in",async(req,res)=>{
     try{
-        const{email,password}=req.body;
-        if(!email||!password){
-            return res.status(400).json({message:"All fields  are required"});
-        }
-        //to check user exist or not 
-        const existingUser= await User.findOne({email:email});
-        if(!existingUser){
-            return res.status(400).json({message:"Invalid credentials"});
+        const{email,password} = req.body; 
+        if(!email || !password){
+            return res.status(400).json({message:"all fields are required"});
         }
 
-        //to check password is same or not
-        const isMatch=await bcrypt.compare(password,existingUser.password);
+        // check user exists
+        const existingUser = await User.findOne({email:email});
+        
+        if(!existingUser)
+        {
+            return res.status(400).json({message:"invalid credentials"});
+        }
+        // check password is matched or not
+        const isMatch= await bcrypt.compare(password,existingUser.password);
         if(!isMatch){
-            return res.status(400).json({message:"Invalid credentials"});
+            return res.status(400).json({message:"invalid credentials"});
         }
 
-        //Generate JWT token
-        const token=jwt.sign(
-        {id:existingUser._id,email:existingUser.email},
-        process.env.JWT_SECRET,
-        {expiresIn:"30d" }
-    );
-    res.cookie("podcasterUSerToken",token,{
-        httpOnly: true,
-        maxAge: 30*24*60*60*1000,//30days
-        secure: process.env.NODE_ENV=== "production",
-        sameSite: "None", 
-    });
-    return res.status(200).json({
-        id:existingUser._id,
-        username:existingUser.username,
-        email:email,
-        message:"Sign-in Successfully",
-    })
-    }catch(error){
+        //generate JWT token
+         const token= jwt.sign(
+            {id: existingUser._id, email: existingUser.email},
+            process.env.JWT_SECRET,
+            {expiresIn: "30d"}
+        );
+
+        res.cookie("podDeckUserToken", token, {
+            httpOnly: true,
+            maxAge: 30*24*60*100, //30 days
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+        });
+
+        return res.status(200).json({
+            id: existingUser._id,
+            username: existingUser.username,
+            email:email, 
+            message:"Sign-in successfull",
+        });
+        
+    }
+    catch(error){
         res.status(500).json({error});
     }
 });
 
-//LOGOUT ROUTER:
+// logout
 router.post("/logout",async(req,res)=>{
-    res.clearCookie("podcasterUSerToken",{
+    res.clearCookie("podDeckUserToken", {
         httpOnly: true,
     });
-    res.json({message: "Logged out"});
+    res.json({message: "logged out"});
 });
 
-// TO CHECK COOKIE IS PRESENT OR NOT
-router.get("/check-cookie", async (req, res) => {
-    const token = req.cookies.podcastUserToken;
+//check cookie present or not
+router.get("/checkCookie",async(req,res)=>{
+    const token = req.cookies.podDeckUserToken;
     if (token) {
-        return res.status(200).json({ message: "true" });
+        return res.status(200).json({ message: true }); // Prevent further execution
     }
-    return res.status(200).json({ message: "false" });
+    res.status(200).json({ message: false });
 });
 
-//Route to fetch user details.
-router.get("/user-details", authMiddleware, async (req, res) => {
-    try {
-        const { email } = req.user; // Corrected line
-        const existingUser = await User.findOne({ email: email }).select("-password");
-        return res.status(200).json({
-            user: existingUser
-        });
-    } catch (error) {
-        res.status(500).json({ error: error });
-    }
+// route to fetch user details
+router.get("/user-details",authMiddleware, async(req,res)=>{
+   try{
+    const {email} = req.user;
+    const existingUser = await User.findOne({email:email}).select(
+        "-password"
+    );
+    return res.status(200).json({user:existingUser,});
+   }
+   catch(error){
+    console.log(error);
+    res.status(500).json({error:error});
+   }
 });
 
-module.exports=router;
+module.exports = router;

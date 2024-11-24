@@ -5,6 +5,7 @@ import businessImg from "../assets/business.jpg";
 import educationImg from "../assets/education.png";
 import hobbiesImg from "../assets/hobbies.png";
 import governmentImg from "../assets/government.jpg";
+import { motion } from "framer-motion";
 const Categories = () => {
     const cat = [
         {
@@ -39,21 +40,29 @@ const Categories = () => {
         },
     ];
   return (
-    <div className="h-screen lg:h-[78vh] bg-green-100">
-        <div className="px-4 lg:px-12 py-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {cat.map((items,i)=>(
-                <Link 
-                to={items.to} 
-                key={i} 
-                className={`rounded px-8 py-4 text-xl font-semibold ${items.color} hover:scale-105 shadow-xl transition-all duration-300 relative h-[22vh] overflow-hidden`}>
-                <div>{items.name}</div>
-                <div className="w-[100%] flex items-center justify-end absolute -bottom-2 -right-2">
-                    <img src={items.img} alt="category" className="rounded rotate-12 h-[15vh] md:h-[17vh] lg:h-[10]"/>
-                </div>
-                </Link>
-            ))}
-        </div>
-    </div>
+    <div className="px-4 lg:px-12 py-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {cat.map((items, i) => (
+        <Link
+            to={items.to}
+            key={i}
+            className={`rounded px-8 py-4 text-xl font-semibold ${items.color} hover:scale-105 shadow-xl transition-all duration-300 relative h-[22vh] overflow-hidden`}
+        >
+            <div>{items.name}</div>
+            <motion.div
+                whileHover={{ rotate: 5, scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+                className="w-[100%] flex items-center justify-end absolute -bottom-2 -right-2"
+            >
+                <img
+                    src={items.img}
+                    alt="category"
+                    className="rounded rotate-12 h-[15vh] md:h-[17vh] lg:h-[10]"
+                />
+            </motion.div>
+        </Link>
+    ))}
+</div>
+   /*  </div> */
   );
 };
 export default Categories

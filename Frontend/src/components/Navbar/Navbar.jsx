@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useSelector } from 'react-redux';
 
 const Navbar = () => {
-    const isLoggedIn= useSelector((state)=> state.auth.isLoggedIn);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const [MobileNav, setMobileNav] = useState(false);
     const navLinks = [
         { name: "Home", path: "/" },
@@ -15,19 +15,23 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="px-4 md:px-8 lg:px-12 py-3 relative">
+        <nav className="px-4 bg-tealGray text-white bg-opacity-40 md:px-8 lg:px-12 py-3 relative backdrop-blur-md">
             {/* Desktop Navbar */}
             <div className="flex items-center justify-between">
                 {/* Logo Section */}
                 <div className="logo brand-name w-2/6 flex items-center gap-4">
                     <img src={logo} alt="PodDeck Logo" className="h-10 w-10" />
-                    <Link to="/" className="text-2xl font-bold">PodDeck</Link>
+                    <Link to="/" className="text-2xl text-white font-bold">PodDeck</Link>
                 </div>
 
                 {/* Links for Desktop */}
                 <div className="hidden w-2/6 lg:flex items-center">
                     {navLinks.map((item, i) => (
-                        <Link key={i} to={item.path} className="ms-4 hover:font-semibold transition-all duration-300">
+                        <Link
+                            key={i}
+                            to={item.path}
+                            className="ms-4 hover:font-semibold text-white transition-all duration-300" // Updated color to white
+                        >
                             {item.name}
                         </Link>
                     ))}
@@ -36,10 +40,10 @@ const Navbar = () => {
                 {/* Buttons for Desktop */}
                 <div className="hidden w-2/6 lg:flex items-center justify-end">
                     {!isLoggedIn && <>
-                        <Link to="/login" className="px-6 py-3 border border-black rounded-full">Login</Link>
+                        <Link to="/login" className="px-6 py-3 bg-black text-white rounded-full">Login</Link>
                         <Link to="/signup" className="ms-4 px-5 py-3 bg-black text-white rounded-full">Signup</Link>
                     </>}
-                    {isLoggedIn && 
+                    {isLoggedIn &&
                         <Link to="/profile" className="ms-4 px-5 py-3 bg-black text-white rounded-full">Profile</Link>
                     }
                 </div>
@@ -54,7 +58,13 @@ const Navbar = () => {
 
             {/* Mobile Navigation */}
             {MobileNav && (
-                <div className="fixed top-0 left-0 w-full h-screen bg-blue-100 z-50">
+                <div
+                    className="fixed top-0 left-0 w-full h-screen bg-blue-100 z-50"
+                    style={{
+                        transform: MobileNav ? "translateX(0)" : "translateX(-100%)",
+                        opacity: MobileNav ? 1 : 0,
+                    }}
+                >
                     {/* Close Button */}
                     <div className="p-4 flex justify-end">
                         <button onClick={() => setMobileNav(false)}
@@ -64,26 +74,26 @@ const Navbar = () => {
                     </div>
 
                     {/* Mobile Links */}
-                    <div className="h-full flex flex-col items-center justify-center">
+                    <div className="h-full flex text-white flex-col items-center justify-center">
                         {navLinks.map((item, i) => (
                             <Link
                                 key={i}
                                 to={item.path}
-                                className="mb-6 text-3xl hover:font-semibold"
+                                className="mb-6 text-3xl hover:font-semibold text-white" // Updated color to white
                                 onClick={() => setMobileNav(false)}>
                                 {item.name}
                             </Link>
                         ))}
                         <Link
                             to="/login"
-                            className="mb-6 text-3xl hover:font-semibold"
+                            className="mb-6 text-3xl hover:font-semibold text-white" // Updated color to white
                             onClick={() => setMobileNav(false)}
                         >
                             Login
                         </Link>
                         <Link
                             to="/signup"
-                            className="mb-6 text-3xl hover:font-semibold"
+                            className="mb-6 text-3xl hover:font-semibold text-white" // Updated color to white
                             onClick={() => setMobileNav(false)}>
                             Signup
                         </Link>

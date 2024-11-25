@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import ErrorPage from "./ErrorPage";
 import Header from "../components/Profile/Header";
 import YourPodcast from "../components/Profile/YourPodcast";
- 
+
 const Profile = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
-    <div>
+    <div className="bg-zinc-900 text-zinc-50 min-h-screen">
       {isLoggedIn ? (
         <>
           <Header />
@@ -19,6 +19,5 @@ const Profile = () => {
     </div>
   );
 };
-
 
 export default Profile;

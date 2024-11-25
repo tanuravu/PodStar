@@ -26,13 +26,13 @@ const Navbar = () => {
   const closeMobileNav = () => setMobileNav(false);
 
   return (
-    <nav className="px-4 md:px-8 lg:px-12 py-2 relative z-[1]">
-      <div className="flex items-center justify-between">
-        <div className="logo brand-name w-2/6 flex items-center gap-4">
+    <nav className="px-4 md:px-8 lg:px-12 py-2 bg-zinc-700 relative z-[1]">
+      <div className="flex items-center text-white justify-between">
+        <div className="logo brand-name w-2/6 flex items-center gap-2">
           <img
             src="https://cdn-icons-png.flaticon.com/128/9043/9043096.png"
             alt="PodStar"
-            className="h-12"
+            className="h-12 transition-transform duration-100 hover:scale-110"
           />
           <Link to="/" className="text-2xl font-bold">
             PodStar
@@ -55,13 +55,13 @@ const Navbar = () => {
               {" "}
               <Link
                 to="/login"
-                className="px-6 py-3 border border-black rounded-full"
+                className=" ms-4 px-6 py-3 bg-white  text-black hover:font-semibold border border-black rounded-full"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="ms-4 px-6 py-3 bg-black text-white rounded-full"
+                className="ms-4 px-6 py-3 bg-white  text-black hover:font-semibold border border-black rounded-full"
               >
                 Signup
               </Link>

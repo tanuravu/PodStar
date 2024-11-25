@@ -20,6 +20,7 @@ const Login = () => {
     const { name, value } = e.target;
     setValues({ ...Values, [name]: value });
   };
+
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
@@ -31,66 +32,77 @@ const Login = () => {
       );
       dispatch(authActions.login());
       navigate("/profile");
-      //console.log(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
+
   return (
     <>
       {isLoggedIn ? (
         <ErrorPage />
       ) : (
-        <div className="h-screen bg-green-100 flex items-center justify-center ">
+        <div className="h-screen bg-zinc-900 flex items-center justify-center">
           <ToastContainer position="top-center" draggable />
-          <div className="w-4/6 md:w-3/6 lg:w-2/6  flex flex-col items-center justify-center ">
-            <Link to="/" className="text-2xl font-bold ">
+          <div className="w-4/6 md:w-3/6 lg:w-2/6 bg-zinc-800 rounded-lg shadow-lg p-8 flex flex-col items-center shadow-[0_0_20px_5px_rgba(255,255,255,0.2)]">
+            <Link
+              to="/"
+              className="text-3xl font-extrabold text-zinc-50 mb-8"
+            >
               PodStar
             </Link>
-            <div className="mt-6 w-full">
-              <div className="w-full flex flex-col  mt-2">
-                <label htmlFor="">Email</label>
+            <div className="w-full">
+              <div className="flex flex-col mt-4">
+                <label
+                  htmlFor="email"
+                  className="text-zinc-400 font-medium"
+                >
+                  Email
+                </label>
                 <input
+                  id="email"
                   type="email"
-                  className="mt-2 px-2 py-2 rounded outline-none border border-black "
+                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
                   required
-                  placeholder="Email"
+                  placeholder="Enter your email"
                   name="email"
                   value={Values.email}
                   onChange={change}
                 />
               </div>
-              <div className="w-full flex flex-col mt-2">
-                <label htmlFor="">Password</label>
+              <div className="flex flex-col mt-6">
+                <label
+                  htmlFor="password"
+                  className="text-zinc-400 font-medium"
+                >
+                  Password
+                </label>
                 <input
+                  id="password"
                   type="password"
-                  className="mt-2 px-2 py-2 rounded outline-none border border-black "
+                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
                   required
-                  placeholder="Password"
+                  placeholder="Enter your password"
                   name="password"
                   value={Values.password}
                   onChange={change}
                 />
               </div>
-              <div className="w-full flex flex-col mt-4">
-                <button
-                  className="bg-green-900 font-semibold text-xl text-white rounded py-2"
-                  onClick={handleSubmit}
+              <button
+                onClick={handleSubmit}
+                className="w-full py-3 mt-8 bg-gradient-to-r from-zinc-600 to-zinc-500 text-white font-semibold rounded-lg shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+              >
+                Login
+              </button>
+              <p className="text-center text-zinc-400 mt-6">
+                Don't have an account?{" "}
+                <Link
+                  to="/signup"
+                  className="font-medium text-zinc-300 hover:text-zinc-100"
                 >
-                  Login
-                </button>
-              </div>
-              <div className="w-full flex flex-col mt-4">
-                <p className="text-center">
-                  Don't have an account?{" "}
-                  <Link
-                    to="/signup"
-                    className="font-semibold hover:text-blue-600"
-                  >
-                    Signup
-                  </Link>
-                </p>
-              </div>
+                  Signup
+                </Link>
+              </p>
             </div>
           </div>
         </div>

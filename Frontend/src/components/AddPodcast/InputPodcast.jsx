@@ -176,13 +176,14 @@ const InputPodcast = () => {
                     <option value="Education">Education</option>
                     <option value="Hobbies">Hobbies</option>
                     <option value="Government">Government</option>
+                    <option value="Historic">Historic</option>
                 </select>
               
             </div>
           </div>
 
           <div className="mt-8 lg:mt-6 flex">
-            <button className="bg-zinc-900 w-full text-white rounded px-8 py-2 font-semibold hover:bg-zinc-700 transition-all duration-300" onClick={handleSubmitPodacst}>Create Podcast</button>
+            <button className="bg-zinc-800 w-full text-white rounded px-8 py-2 font-semibold hover:bg-zinc-700 transition-all duration-300" onClick={handleSubmitPodacst}>Create Podcast</button>
           </div>
         </div>
       </div>

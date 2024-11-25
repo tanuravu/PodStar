@@ -2,7 +2,8 @@ const jwt=require("jsonwebtoken");
 const User=require("../models/user");
 
 const authMiddleware = async(req,res,next)=>{
-    const token=req.cookies.podcastUserToken;
+    const token=req.cookies.podcasterUserToken;
+    
     try{
         if(token){
             const decode=jwt.verify(token,process.env.JWT_SECRET);
@@ -16,6 +17,6 @@ const authMiddleware = async(req,res,next)=>{
     }catch(error){
         res.status(500).json({message:"Invalid Token"});
     }
-}
+};
 
 module.exports= authMiddleware;

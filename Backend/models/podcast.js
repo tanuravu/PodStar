@@ -22,13 +22,11 @@ const podcasts = new mongoose.Schema({
         unique:true,
         required:true,
     },
-    user:
-        {
+    user:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"user",
         },
-    category:
-        {
+    category:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"category",
         },

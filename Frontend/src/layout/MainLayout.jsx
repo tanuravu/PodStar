@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from "../components/Navbar/Navbar";
 import {Outlet} from "react-router-dom";
-/* import AudioPlayer from "../components/AudioPlayer/AudioPlayer"; */
+import AudioPlayer from "../components/AudioPlayer/AudioPlayer"; 
 
 const MainLayout = () => {
   return (
@@ -10,9 +10,9 @@ const MainLayout = () => {
       <main>
         <Outlet />
       </main>
-      {/* <div className=" w-full">
+      <div className=" w-full">
         <AudioPlayer />
-      </div> */}
+      </div>
     </div>
   );
 };

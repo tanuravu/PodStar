@@ -17,7 +17,7 @@ const Home = () => {
         Your browser does not support the video tag.
       </video>
 
-      <div className="w-full flex items-center justify-between gap-4 relative z-10">
+      <div className="w-full flex items-center justify-between gap-4 relative ">
         <div className="w-full lg:w-5/6">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-semibold text-center lg:text-start text-white">
             Create & listen to the <br />
@@ -36,7 +36,7 @@ const Home = () => {
         </div>
         <div className="hidden lg:block w-1/6"></div>
       </div>
-      <div className="mt-12 w-full flex flex-col lg:flex-row items-end justify-between relative z-10">
+      <div className="mt-12 w-full flex flex-col lg:flex-row items-end justify-between relative ">
         <div className="flex flex-col items-center lg:items-start justify-center">
           <p className="text-xl font-semibold text-center lg:text-start text-white">
             Listen to the most popular podcasts on just one platform - <b>PodStar</b>

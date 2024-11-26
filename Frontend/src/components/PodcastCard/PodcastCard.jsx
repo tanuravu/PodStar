@@ -34,13 +34,13 @@ const PodcastCard = ({ items }) => {
         </div>
         <div className="mt-2 text-xl font-bold">{items.title.slice(0, 20)}</div>
         <div className="mt-2 leading-5 text-slate-500 ">{items.description.slice(0, 50)}</div>
-        <div className="mt-2 bg-orange-100 text-orange-700 border border-orange-700 rounded-full px-4 py-2 text-center">
+        <div className="mt-2 bg-white text-black border border-black rounded-full px-4 py-2 text-center">
           {items.category.categoryName}
         </div>
         <div className="mt-2">
           <Link
             to={isLoggedIn ? "#" : "/signup"}
-            className="bg-green-900 text-white px-4 py-2 rounded mt-2 flex items-center justify-center hover:bg-green-800 transition-all duration-300"
+            className="bg-zinc-700 text-white px-4 py-2 rounded mt-2 flex items-center justify-center hover:bg-green-800 transition-all duration-300"
             onClick={handlePlay}
           >
             Play Now

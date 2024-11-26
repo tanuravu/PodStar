@@ -39,10 +39,10 @@ const Signup = () => {
       ) : (
         <div className="h-screen bg-zinc-900 flex items-center justify-center">
           <ToastContainer position="top-center" draggable />
-          <div className="w-4/6 md:w-3/6 lg:w-2/6 bg-zinc-800 rounded-lg shadow-lg p-8 flex flex-col items-center shadow-[0_0_20px_5px_rgba(255,255,255,0.2)]">
+          <div className="w-4/6 md:w-3/6 lg:w-2/6 bg-zinc-800 rounded-lg shadow-2xl p-8 flex flex-col items-center transform transition-transform duration-500 hover:scale-105 h:shadow-[0_0_25px_5px_rgba(255,255,255,0.3)]">
             <Link
               to="/"
-              className="text-3xl font-extrabold text-zinc-50 mb-8"
+              className="text-3xl font-extrabold text-zinc-50 mb-8 hover:animate-pulse"
             >
               PodStar
             </Link>
@@ -50,14 +50,14 @@ const Signup = () => {
               <div className="flex flex-col mt-4">
                 <label
                   htmlFor="username"
-                  className="text-zinc-400 font-medium"
+                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
                 >
                   Username
                 </label>
                 <input
                   id="username"
                   type="text"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
+                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
                   required
                   placeholder="Enter your username"
                   name="username"
@@ -68,14 +68,14 @@ const Signup = () => {
               <div className="flex flex-col mt-6">
                 <label
                   htmlFor="email"
-                  className="text-zinc-400 font-medium"
+                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
                 >
                   Email
                 </label>
                 <input
                   id="email"
                   type="email"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
+                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
                   required
                   placeholder="Enter your email"
                   name="email"
@@ -86,14 +86,14 @@ const Signup = () => {
               <div className="flex flex-col mt-6">
                 <label
                   htmlFor="password"
-                  className="text-zinc-400 font-medium"
+                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
                 >
                   Password
                 </label>
                 <input
                   id="password"
                   type="password"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
+                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
                   required
                   placeholder="Enter your password"
                   name="password"
@@ -103,7 +103,7 @@ const Signup = () => {
               </div>
               <button
                 onClick={handleSubmit}
-                className="w-full py-3 mt-8 bg-gradient-to-r from-zinc-600 to-zinc-500 text-white font-semibold rounded-lg shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                className="w-full py-3 mt-8 bg-gradient-to-r from-zinc-600 to-zinc-500 text-white font-semibold rounded-lg hover:from-zinc-500 hover:to-zinc-400 transform transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
               >
                 Signup
               </button>
@@ -111,7 +111,7 @@ const Signup = () => {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium text-zinc-300 hover:text-zinc-100"
+                  className="font-medium text-zinc-300 hover:text-zinc-100 transition-transform duration-300 hover:scale-105"
                 >
                   Login
                 </Link>

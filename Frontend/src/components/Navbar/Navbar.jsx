@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
-
+import PodStar from "../../assets/PodStar.png"
 const Navbar = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   console.log(isLoggedIn);
@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className="flex items-center text-white justify-between">
         <div className="logo brand-name w-2/6 flex items-center gap-2">
           <img
-            src="https://cdn-icons-png.flaticon.com/128/9043/9043096.png"
+            src={PodStar}
             alt="PodStar"
             className="h-12 transition-transform duration-100 hover:scale-110"
           />
@@ -125,7 +125,7 @@ const Navbar = () => {
           ) : (
             <Link
               to="/profile"
-              className="mb-12 text-3xl hover:font-semibold transition-all duration-300"
+              className="mb-12 text-3xl hover:font-semibold transition-all duration-300 "
               onClick={closeMobileNav}
             >
               Profile

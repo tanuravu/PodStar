@@ -102,7 +102,7 @@ router.post("/logout", async (req, res) => {
 });
 
 //check cookie present or not
-router.get("/check-cookie",async(req,res)=>{
+router.get("/checkCookie",async(req,res)=>{
     const token = req.cookies.podcasterUserToken;
     if (token) {
         return res.status(200).json({ message: true }); // Prevent further execution

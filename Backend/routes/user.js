@@ -66,7 +66,7 @@ router.post("/sign-in",async(req,res)=>{
             process.env.JWT_SECRET,
             {expiresIn: "30d"}
         );
-        res.cookie("podDeckUserToken", token, {
+        res.cookie("podcasterUserToken", token, {
             httpOnly: true,
             maxAge: 30*24*60*100, //30 days
             secure: process.env.NODE_ENV === "production",
@@ -89,7 +89,7 @@ router.post("/sign-in",async(req,res)=>{
 router.post("/logout", async (req, res) => {
     try {
       // Clear the cookie
-      res.clearCookie("podcaterToken", {
+      res.clearCookie("podcasterUserToken", {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict' 
@@ -103,7 +103,7 @@ router.post("/logout", async (req, res) => {
 
 //check cookie present or not
 router.get("/check-cookie",async(req,res)=>{
-    const token = req.cookies.podDeckUserToken;
+    const token = req.cookies.podcasterUserToken;
     if (token) {
         return res.status(200).json({ message: true }); // Prevent further execution
     }

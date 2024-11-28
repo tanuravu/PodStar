@@ -104,6 +104,7 @@ router.get("/category/:cat", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
 //delete podcast 
 router.delete("/delete-podcast/:id", async (req, res) => {
   try {

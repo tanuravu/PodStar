@@ -13,7 +13,7 @@ const EditModal = ({ podcast, onClose, onSave }) => {
       ...podcast,
       title,
       description,
-      category: { ...podcast.category, categoryName: category }, // Ensure category structure
+      category: { ...podcast.category, categoryName: category },
     };
     onSave(updatedData); // Save changes
     onClose(); // Close modal
@@ -45,13 +45,21 @@ const EditModal = ({ podcast, onClose, onSave }) => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Category</label>
-            <input
-              type="text"
+            <select
               className="w-full p-2 border rounded text-black"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="Comedy">Comedy</option>
+              <option value="Business">Business</option>
+              <option value="Education">Education</option>
+              <option value="Hobbies">Hobbies</option>
+              <option value="Government">Government</option>
+              <option value="Historic">Historic</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
           <div className="flex justify-end gap-4">
             <button

@@ -6,18 +6,21 @@ import { playerActions } from "../../store/player";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
 
-const PodcastCard = ({ items, handleRemove, isFavorite }) => {
+const PodcastCard = ({ items, handleRemove, isFavorite, updateCategory }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const handleFavorite = async () => {
     try {
-      await axios.post(
+      const res = await axios.post(
         `http://localhost:8080/api/v1/add-to-favorites/${items._id}`,
         {},
         { withCredentials: true }
       );
       alert("Added to favorites");
+
+      // Optionally update category if required here
+      // updateCategory(updatedPodcast); // Call this function with the updated podcast if needed
     } catch (error) {
       alert("Failed to add to favorites");
     }
@@ -59,23 +62,23 @@ const PodcastCard = ({ items, handleRemove, isFavorite }) => {
 
         {/* Category and Add to Favorites Section */}
         <div>
-        <div className="mt-2  bg-white text-black border border-black rounded-full px-4 py-2 flex justify-between items-center">
-          {/* Category Name */}
-          <span className="text-sm font-medium">
-            {items.category.categoryName}
-          </span>
-        </div>
-        {/* Add to Favorites Button */}
-        <div>
-          {!isFavorite && (
-            <button
-              className=" px-4 py-2 rounded-full flex items-center justify-center  transition-all duration-300"
-              onClick={handleFavorite}
-            >
-              <FaHeart className="text-red-700 text-xl" />
-            </button>
-          )}
-        </div>
+          <div className="mt-2 px-4 py-2 flex justify-between items-center">
+            {/* Category Name */}
+            <span className="text-sm font-medium">
+              <h3>Genre: {items.category.categoryName}</h3>
+            </span>
+          </div>
+          {/* Add to Favorites Button */}
+          <div>
+            {!isFavorite && (
+              <button
+                className=" px-4 py-2 bg-red-500 rounded-full flex items-center justify-center  transition-all duration-300"
+                onClick={handleFavorite}
+              >
+                Add to Favorites
+              </button>
+            )}
+          </div>
         </div>
       </Link>
 
@@ -116,6 +119,7 @@ PodcastCard.propTypes = {
   }).isRequired,
   handleRemove: PropTypes.func,
   isFavorite: PropTypes.bool.isRequired,
+  updateCategory: PropTypes.func.isRequired,
 };
 
 export default PodcastCard;

@@ -48,6 +48,7 @@ const YourPodcast = () => {
       );
   
       if (res.data?.data) {
+        // Update the state directly without reloading the entire list
         setPodcasts((prevPodcasts) =>
           prevPodcasts.map((podcast) =>
             podcast._id === updatedData._id ? res.data.data : podcast
@@ -57,9 +58,10 @@ const YourPodcast = () => {
   
       setEditModalOpen(false); // Close modal after successful update
     } catch (error) {
-      console.error("Failed to update podcast:", error);
+      console.error('Failed to update podcast:', error);
     }
   };
+  
   
   return (
     <div className="bg-zinc-900 text-zinc-50 px-4 lg:px-12 my-4">

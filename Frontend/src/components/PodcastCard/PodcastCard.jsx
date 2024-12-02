@@ -90,16 +90,6 @@ const PodcastCard = ({ items, handleRemove, isFavorite }) => {
         </Link>
       </div>
 
-      {/* Add to Favorites Button */}
-      {/* {!isFavorite && (
-        <button
-          className="text-zinc-700 px-4 py-2 rounded-full mt-2 flex items-center justify-center hover:bg-gray-300 transition-all duration-300"
-          onClick={handleFavorite}
-        >
-          <FaHeart className="text-red-700 text-xl" />
-        </button>
-      )} */}
-
       {/* Remove from Favorites Button */}
       {isFavorite && (
         <button

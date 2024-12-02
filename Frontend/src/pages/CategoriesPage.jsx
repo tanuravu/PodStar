@@ -19,7 +19,7 @@ const CategoriesPage = () => {
   }, [cat]);
 
   return (
-    <div className="bg-zinc-900 text-zinc-50 px-4 py-4 lg:px-12">
+    <div className="bg-zinc-900 text-zinc-50 h-screen px-4 py-4 lg:px-12">
       <h1 className="text-xl font-semibold text-zinc-100">{cat}</h1>
       <div className="w-full px-4 lg:px-12 py-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {Podcasts &&

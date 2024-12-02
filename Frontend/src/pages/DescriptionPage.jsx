@@ -18,7 +18,7 @@ const DescriptionPage = () => {
   }, [id]);
 
   return (
-    <div className="bg-zinc-900 h-screen text-zinc-50 px-4 lg:px-12 py-4 h-auto flex flex-col md:flex-row items-start justify-between gap-4">
+    <div className="bg-zinc-900 h-screen text-zinc-50 px-4 lg:px-12 py-4 h-screen flex flex-col md:flex-row items-start justify-between gap-4">
       {Podcasts && (
         <>
           <div className="w-full md:w-2/6 flex items-center justify-center md:justify-start md:items-start">

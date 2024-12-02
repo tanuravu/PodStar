@@ -13,10 +13,9 @@ const EditModal = ({ podcast, onClose, onSave }) => {
       ...podcast,
       title,
       description,
-      category: { ...podcast.category, categoryName: category },
+      category, // Send the category name instead of the object
     };
     onSave(updatedData); // Save changes
-    onClose(); // Close modal
   };
 
   return (

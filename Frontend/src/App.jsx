@@ -15,7 +15,7 @@ import AddPodcast from './pages/AddPodcast';
 import AllPodcasts from './pages/AllPodcasts';
 import CategoriesPage from './pages/CategoriesPage';
 import DescriptionPage from './pages/DescriptionPage';
-
+import FavoritesPage from './pages/FavoritesPage';
 const App = () => {
   const dispatch= useDispatch();
   useEffect(() =>{
@@ -45,6 +45,8 @@ const App = () => {
             <Route path="/all-podcasts" element={<AllPodcasts/>}/>
             <Route path="/categories/:cat" element={<CategoriesPage/>}/>
             <Route path="/description/:id" element={<DescriptionPage/>}/>
+            <Route path="/favorites" element={<FavoritesPage />} />
+
 
           </Route>
           <Route path="/" element={<AuthLayout/>}>

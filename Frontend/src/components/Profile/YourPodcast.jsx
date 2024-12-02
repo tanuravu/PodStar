@@ -73,6 +73,12 @@ const YourPodcast = () => {
         >
           Add Podcast
         </Link>
+        <Link
+          to="/favorites"
+          className="px-4 py-2 bg-zinc-800 text-zinc-50 rounded font-semibold hover:bg-zinc-700 transition-all duration-300"
+        >
+          Favorites
+        </Link>
       </div>
       <div className="my-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Podcasts.map((items, i) => (
@@ -91,7 +97,7 @@ const YourPodcast = () => {
               </button>
               <button
                 onClick={() => handleDelete(items._id)}
-                className=" bg-zinc-700 px-2 py-1 rounded text-red-600 transition-all text-sm"
+                className=" bg-zinc-700 px-2 py-1 rounded font-semibold text-red-600 transition-all text-sm"
                 disabled={isLoading}
               >
                 Delete

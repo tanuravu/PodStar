@@ -24,12 +24,12 @@ const user = new mongoose.Schema({
             ref:"podcasts",
         },
     ],
- /*    favourites:[
+     favourites:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"podcasts",
         },
-    ], */
+    ],  
 },
 {timestamps:true}
 );

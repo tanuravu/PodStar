@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PodcastCard from "../components/PodcastCard/PodcastCard";
+import { toast } from "react-toastify";
 
 const FavoritesPage = () => {
   const [favorites, setFavorites] = useState([]);
 
-  // Fetching favorite podcasts
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -15,22 +15,23 @@ const FavoritesPage = () => {
         setFavorites(res.data.data);
       } catch (error) {
         console.error("Error fetching favorites:", error);
+        toast.error("Failed to load favorites.");
       }
     };
     fetchFavorites();
   }, []);
 
-  // Remove from favorites handler
   const handleRemove = async (podcastId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/v1/remove-from-favorites/${podcastId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `http://localhost:8080/api/v1/remove-from-favorites/${podcastId}`,
+        { withCredentials: true }
+      );
       setFavorites(favorites.filter((podcast) => podcast._id !== podcastId));
-      alert("Removed from favorites");
+      toast.success("Podcast removed from favorites.");
     } catch (error) {
       console.error("Error removing from favorites:", error);
-      alert("Failed to remove from favorites");
+      toast.error("Failed to remove podcast from favorites.");
     }
   };
 

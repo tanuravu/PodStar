@@ -21,6 +21,7 @@ const Navbar = () => {
       name: "All Podcasts",
       path: "/all-podcasts",
     },
+    
   ];
 
   const closeMobileNav = () => setMobileNav(false);

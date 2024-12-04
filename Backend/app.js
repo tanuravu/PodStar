@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const userApi= require("./routes/user");
 const catApi= require("./routes/category");
 const PodcastApi= require("./routes/podcast");
+
 const cors = require("cors");
 
 require("dotenv").config();
@@ -20,6 +21,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/v1",userApi);
 app.use("/api/v1",catApi);
 app.use("/api/v1",PodcastApi);
+
 
 app.listen(process.env.PORT,()=>{
     console.log(`server started on port: ${process.env.PORT}`);

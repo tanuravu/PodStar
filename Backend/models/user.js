@@ -29,7 +29,7 @@ const user = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:"podcasts",
         },
-    ],  
+    ], 
 },
 {timestamps:true}
 );

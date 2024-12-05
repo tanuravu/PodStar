@@ -1,6 +1,6 @@
 // model/album.js
 const mongoose = require('mongoose');
-
+const {Schema} =mongoose;
 const albumSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -16,13 +16,15 @@ const albumSchema = new mongoose.Schema({
         required: true,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type:Schema.Types.ObjectId,
         ref: "user",
     },
     podcasts: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "podcasts",
+        
     }],
 }, { timestamps: true });
+
 
 module.exports = mongoose.model('album', albumSchema);

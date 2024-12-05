@@ -33,6 +33,7 @@ const CategoriesPage = () => {
       )
     );
   };
+  
 
   // Handle search input change
   const handleSearchChange = (e) => {

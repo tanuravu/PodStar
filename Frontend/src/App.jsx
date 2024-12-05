@@ -16,9 +16,8 @@ import AllPodcasts from './pages/AllPodcasts';
 import CategoriesPage from './pages/CategoriesPage';
 import DescriptionPage from './pages/DescriptionPage';
 import FavoritesPage from './pages/FavoritesPage';
-
-
-
+import AllAlbums from './pages/AllAlbums';
+import AddAlbum from './pages/AddAlbum';
 const App = () => {
   const dispatch= useDispatch();
   useEffect(() =>{
@@ -49,7 +48,8 @@ const App = () => {
             <Route path="/categories/:cat" element={<CategoriesPage/>}/>
             <Route path="/description/:id" element={<DescriptionPage/>}/>
             <Route path="/favorites" element={<FavoritesPage />} />
-            
+            <Route path="/all-albums" element={<AllAlbums/>}/>
+            <Route path="/add-album" element={<AddAlbum/>}/>
 
           </Route>
           <Route path="/" element={<AuthLayout/>}>

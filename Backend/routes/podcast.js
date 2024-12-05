@@ -8,8 +8,8 @@ const router = require("express").Router();
 //add-podcast
 router.post(
   "/add-podcast",
-  authMiddleware, // Ensure this is a valid middleware function
-  upload.single("audioFile"), // Ensure this is correctly imported
+  authMiddleware, 
+  upload.single("audioFile"), 
   async (req, res) => {
       try {
           const { title, description } = req.body;
@@ -22,7 +22,7 @@ router.post(
               title,
               description,
               audioFile: req.file.path,
-              user: req.user._id, // Assuming `authMiddleware` attaches `user`
+              user: req.user._id, 
           });
 
           await newPodcast.save();
@@ -33,8 +33,6 @@ router.post(
       }
   }
 );
-
-
 //get all podcast
 router.get("/get-podcasts", async (req, res) => {
   try {

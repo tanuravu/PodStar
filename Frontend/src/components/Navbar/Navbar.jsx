@@ -21,6 +21,10 @@ const Navbar = () => {
       name: "All Podcasts",
       path: "/all-podcasts",
     },
+    {
+      name: "All Albums",
+      path: "/all-albums", 
+  },
     
   ];
 

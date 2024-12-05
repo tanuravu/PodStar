@@ -1,22 +1,33 @@
-const jwt=require("jsonwebtoken");
-const User=require("../models/user");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
-const authMiddleware = async(req,res,next)=>{
-    const token=req.cookies.podcasterUserToken;
-    
-    try{
-        if(token){
-            const decode=jwt.verify(token,process.env.JWT_SECRET);
-            const user = await User.findById(decode.id);
-            if(!user){
-                return res.status(404).json({message:"User not found"});
-            }
-            req.user= user;
-            next();
+const authMiddleware = async (req, res, next) => {
+    try {
+        // Get the token from cookies
+        const token = req.cookies?.podcasterUserToken;
+
+        if (!token) {
+            console.log("No token found in cookies.");
+            return res.status(401).json({ message: "Authentication failed: No token provided." });
         }
-    }catch(error){
-        res.status(500).json({message:"Invalid Token"});
+
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Find the user associated with the token
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            console.log("User not found for the provided token.");
+            return res.status(404).json({ message: "Authentication failed: User not found." });
+        }
+
+        // Attach the user to the request object
+        req.user = user;
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        console.error("AuthMiddleware Error:", error.message);
+        res.status(401).json({ message: "Authentication failed: Invalid or expired token." });
     }
 };
 
-module.exports= authMiddleware;
+module.exports = authMiddleware;

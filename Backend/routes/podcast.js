@@ -6,33 +6,50 @@ const Podcast = require("../models/podcast");
 const router = require("express").Router();
 
 //add-podcast
-router.post(
-  "/add-podcast",
-  authMiddleware, 
-  upload.single("audioFile"), 
-  async (req, res) => {
-      try {
-          const { title, description } = req.body;
+router.post("/add-podcast", authMiddleware, upload.fields([{ name: "frontImage", maxCount: 1 }, { name: "audioFile", maxCount: 1 }]), async (req, res) => {
+  try {
+    const { title, description, category } = req.body;
 
-          if (!title || !description || !req.file) {
-              return res.status(400).json({ message: "All fields are required" });
-          }
+    // Validate required fields
+    if (!title || !description || !category || !req.files["frontImage"] || !req.files["audioFile"]) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-          const newPodcast = new Podcast({
-              title,
-              description,
-              audioFile: req.file.path,
-              user: req.user._id, 
-          });
+    // Extract file paths
+    const frontImage = req.files["frontImage"][0].path;
+    const audioFile = req.files["audioFile"][0].path;
 
-          await newPodcast.save();
-          res.status(201).json({ message: "Podcast added successfully", podcast: newPodcast });
-      } catch (error) {
-          console.error("Failed to add podcast:", error);
-          res.status(500).json({ message: "Failed to add podcast" });
-      }
+    // Find category
+    const cat = await Category.findOne({ categoryName: category });
+    if (!cat) {
+      return res.status(400).json({ message: "No category found" });
+    }
+
+    const catid = cat._id;
+    const userid = req.user._id;
+
+    // Create new podcast
+    const newPodcast = new Podcast({
+      title,
+      description,
+      category: catid,
+      frontImage,
+      audioFile,
+      user: userid,
+    });
+
+    // Save the podcast and update related models
+    await newPodcast.save();
+    await Category.findByIdAndUpdate(catid, { $push: { podcasts: newPodcast._id } });
+    await User.findByIdAndUpdate(userid, { $push: { podcasts: newPodcast._id } });
+
+    // Respond with success
+    res.status(201).json({ message: "Podcast added successfully", podcast: newPodcast });
+  } catch (error) {
+    console.error("Error adding podcast:", error);
+    res.status(500).json({ message: "Failed to add podcast" });
   }
-);
+});
 //get all podcast
 router.get("/get-podcasts", async (req, res) => {
   try {

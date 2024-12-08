@@ -5,30 +5,30 @@ const path = require("path");
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Ensure that the 'uploads' folder exists and is writable
-        cb(null, "uploads/"); // Path to save uploaded files
+        cb(null, path.join(__dirname, "../uploads")); // Save files in the uploads directory
     },
     filename: (req, file, cb) => {
         // Generate a unique filename by appending the current timestamp
-        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+        cb(null, `${Date.now()}-${file.originalname}`); // Use a timestamp for uniqueness
     },
 });
 
 // File filter for validation
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) {
-        // Accept image files only
+    if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("audio/")) {
+        // Accept image and audio files only
         cb(null, true);
     } else {
-        // Reject non-image files with an error
-        cb(new Error("Only image files are allowed"), false);
+        // Reject unsupported file types with an error
+        cb(new Error("Only image and audio files are allowed"), false);
     }
 };
 
-// Initialize multer with custom storage and file validation
+// Initialize multer with custom storage, file validation, and limits
 const upload = multer({
     storage,
     fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB file size limit
 });
 
 // Export the upload middleware

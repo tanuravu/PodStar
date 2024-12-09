@@ -18,7 +18,7 @@ router.get("/all-users", async (req, res) => {
   });
 
 // Update user (Admin only)
-router.put("/update-user/:id", authMiddleware, adminMiddleware, async (req, res) => {
+router.put("/update-user/:id",/*  authMiddleware, adminMiddleware, */ async (req, res) => {
     try {
       const { id } = req.params;
       const { username, email, isAdmin } = req.body;
@@ -40,7 +40,7 @@ router.put("/update-user/:id", authMiddleware, adminMiddleware, async (req, res)
   });
   
 // Delete user (Admin only)
-  router.delete("/delete-user/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  router.delete("/delete-user/:id", /* authMiddleware, adminMiddleware, */ async (req, res) => {
     try {
       const { id } = req.params;
       await User.findByIdAndDelete(id);

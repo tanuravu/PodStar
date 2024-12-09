@@ -6,7 +6,7 @@ const Podcast = require("../models/podcast");
 const router = require("express").Router();
 
 // Admin: Fetch all podcasts (with user details)
-router.get("/all-podcasts", authMiddleware, adminMiddleware, async (req, res) => {
+router.get("/all-podcasts", /* authMiddleware, adminMiddleware, */ async (req, res) => {
   try {
     const podcasts = await Podcast.find()
       .populate("category")
@@ -20,7 +20,7 @@ router.get("/all-podcasts", authMiddleware, adminMiddleware, async (req, res) =>
 });
 
 // Admin: Delete any podcast
-router.delete("/admin-delete-podcast/:id", authMiddleware, adminMiddleware, async (req, res) => {
+router.delete("/admin-delete-podcast/:id", /* authMiddleware, adminMiddleware, */ async (req, res) => {
   try {
     const podcastId = req.params.id;
 
@@ -41,7 +41,7 @@ router.delete("/admin-delete-podcast/:id", authMiddleware, adminMiddleware, asyn
 });
 
 // Admin: Handle reported podcasts (Mark as reviewed or delete)
-router.post("/review-reported-podcast/:id", authMiddleware, adminMiddleware, async (req, res) => {
+router.post("/review-reported-podcast/:id", /* authMiddleware, adminMiddleware, */ async (req, res) => {
   try {
     const { id } = req.params;
     const { action } = req.body; // action: "markReviewed" or "delete"

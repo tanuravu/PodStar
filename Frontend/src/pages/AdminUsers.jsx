@@ -50,6 +50,9 @@ const AdminUsers = () => {
   };
 
   const handleDeleteUser = async (userId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this podcast?");
+    if (!confirmDelete)
+      return;
     try {
       await axios.delete(`http://localhost:3000/api/v1/delete-user/${userId}`, {
         withCredentials: true,
@@ -57,11 +60,11 @@ const AdminUsers = () => {
       setUsers((prev) => prev.filter((user) => user._id !== userId));
       toast.success("User deleted successfully.");
     } catch (err) {
-      toast.error("Failed to delete user.");
+      toast.error("Failed to update user.");
     }
   };
 
-  if (!isAdmin) return <Navigate to="/" />;
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 

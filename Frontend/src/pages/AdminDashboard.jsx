@@ -11,9 +11,7 @@ const AdminDashboard = () => {
   const dispatch = useDispatch(); // Initialize dispatch
   const navigate = useNavigate(); // Initialize navigate
 
-  if (!isAdmin) {
-    return <Navigate to="/" />;
-  }
+  
 
   const handleLogout = async () => {
     try {

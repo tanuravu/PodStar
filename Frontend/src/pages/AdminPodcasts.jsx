@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AdminPodcasts = () => {
@@ -32,6 +31,9 @@ const AdminPodcasts = () => {
   }, []);
 
   const handleDeletePodcast = async (podcastId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this podcast?");
+    if (!confirmDelete)
+        return;
     try {
       await axios.delete(`http://localhost:3000/api/v1/delete-podcast/${podcastId}`, {
         withCredentials: true,
@@ -42,14 +44,11 @@ const AdminPodcasts = () => {
       );
       toast.success("Podcast deleted successfully.");
     } catch (err) {
-      toast.error("Failed to delete podcast.");
+        toast.error("Failed to fetch podcasts.");
       console.error(err);
     }
   };
 
-  if (!isAdmin) {
-    return <Navigate to="/" />;
-  }
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

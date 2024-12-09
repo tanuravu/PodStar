@@ -9,7 +9,7 @@ const DescriptionPage = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(
-        `http://localhost:8080/api/v1/get-podcast/${id}`,
+        `http://localhost:3000/api/v1/get-podcast/${id}`,
         { withCredentials: true }
       );
       setPodcasts(res.data.data);
@@ -18,12 +18,12 @@ const DescriptionPage = () => {
   }, [id]);
 
   return (
-    <div className="bg-zinc-900 h-screen text-zinc-50 px-4 lg:px-12 py-4 h-screen flex flex-col md:flex-row items-start justify-between gap-4">
+    <div className="bg-zinc-900 h-screen text-zinc-50 px-4 lg:px-12 py-4 h-auto flex flex-col md:flex-row items-start justify-between gap-4">
       {Podcasts && (
         <>
           <div className="w-full md:w-2/6 flex items-center justify-center md:justify-start md:items-start">
             <img
-              src={`http://localhost:8080/${Podcasts.frontImage}`}
+              src={`http://localhost:3000/${Podcasts.frontImage}`}
               alt="/"
               className="rounded w-full h-[50vh] object-cover"
             />

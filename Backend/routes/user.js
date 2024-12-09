@@ -1,10 +1,54 @@
 //building user route
-
 const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const authMiddleware = require("../middleware/authMiddleware");
+const {authMiddleware, adminMiddleware} = require("../middleware/authMiddleware");
+
+// Fetch all users (Admin only)
+router.get("/all-users", async (req, res) => {
+    try {
+        console.log("Middleware passed. Fetching users...");  
+      const users = await User.find().select("-password");
+      res.status(200).json({ data: users });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+      res.status(500).json({ message: "Failed to fetch users", error });
+    }
+  });
+
+// Update user (Admin only)
+router.put("/update-user/:id", authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { username, email, isAdmin } = req.body;
+  
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { username, email, isAdmin },
+        { new: true }
+      ).select("-password");
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json({ message: "User updated successfully", data: updatedUser });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update user", error });
+    }
+  });
+  
+// Delete user (Admin only)
+  router.delete("/delete-user/:id", authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await User.findByIdAndDelete(id);
+      res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete user", error });
+    }
+  }); 
 
 //signup route
 router.post("/sign-up",async(req,res)=>{
@@ -66,7 +110,7 @@ router.post("/sign-in",async(req,res)=>{
             process.env.JWT_SECRET,
             {expiresIn: "30d"}
         );
-        res.cookie("podcasterUserToken", token, {
+        res.cookie("podDeckUserToken", token, {
             httpOnly: true,
             maxAge: 30*24*60*100, //30 days
             secure: process.env.NODE_ENV === "production",
@@ -89,7 +133,7 @@ router.post("/sign-in",async(req,res)=>{
 router.post("/logout", async (req, res) => {
     try {
       // Clear the cookie
-      res.clearCookie("podcasterUserToken", {
+      res.clearCookie("podDeckUserToken", {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict' 
@@ -102,13 +146,28 @@ router.post("/logout", async (req, res) => {
 });
 
 //check cookie present or not
-router.get("/check-cookie",async(req,res)=>{
-    const token = req.cookies.podcasterUserToken;
-    if (token) {
-        return res.status(200).json({ message: true }); // Prevent further execution
+router.get("/checkCookie", async (req, res) => {
+    try {
+      const userToken = req.cookies.podDeckUserToken;
+      const adminToken = req.cookies.podDeckAdminToken;
+  
+      if (userToken) {
+        const decodedUser = jwt.verify(userToken, process.env.JWT_SECRET);
+        return res.status(200).json({ message: true, isAdmin: false });
+      }
+  
+      if (adminToken) {
+        const decodedAdmin = jwt.verify(adminToken, process.env.JWT_SECRET);
+        return res.status(200).json({ message: true, isAdmin: true });
+      }
+  
+      // If no valid token is found
+      res.status(200).json({ message: false });
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      res.status(401).json({ message: "Authentication failed", error: error.message });
     }
-    res.status(200).json({ message: false });
-});
+  });
 
 // route to fetch user details
 router.get("/user-details",authMiddleware, async(req,res)=>{
@@ -124,6 +183,7 @@ router.get("/user-details",authMiddleware, async(req,res)=>{
     res.status(500).json({error:error});
    }
 });
+
 // Add to favorites
 router.post("/add-to-favorites/:id", authMiddleware, async (req, res) => {
     try {
@@ -137,7 +197,6 @@ router.post("/add-to-favorites/:id", authMiddleware, async (req, res) => {
 
         user.favourites.push(podcastId);
         await user.save();
-
         res.status(200).json({ message: "Added to favorites" });
     } catch (error) {
         console.error("Failed to add to favorites:", error);
@@ -181,6 +240,4 @@ router.get("/favorites", authMiddleware, async (req, res) => {
     }
 });
 
-
-  
 module.exports = router;

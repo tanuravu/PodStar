@@ -9,7 +9,7 @@ const FavoritesPage = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/v1/favorites", {
+        const res = await axios.get("http://localhost:3000/api/v1/favorites", {
           withCredentials: true,
         });
         setFavorites(res.data.data);
@@ -24,7 +24,7 @@ const FavoritesPage = () => {
   const handleRemove = async (podcastId) => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/v1/remove-from-favorites/${podcastId}`,
+        `http://localhost:3000/api/v1/remove-from-favorites/${podcastId}`,
         { withCredentials: true }
       );
       setFavorites(favorites.filter((podcast) => podcast._id !== podcastId));

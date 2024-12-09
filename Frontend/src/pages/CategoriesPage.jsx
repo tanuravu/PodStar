@@ -13,7 +13,7 @@ const CategoriesPage = () => {
     const fetchPodcasts = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/v1/category/${cat}`,
+          `http://localhost:3000/api/v1/category/${cat}`,
           { withCredentials: true }
         );
         setPodcasts(res.data.data);  // Update the podcast state
@@ -67,7 +67,7 @@ const CategoriesPage = () => {
             </div>
           ))
         ) : (
-          <div className="text-3xl font-bold text-zinc-400 h-screen flex items-center justify-center">
+          <div className="text-3xl font-bold text-zinc-400 h-screen text-center items-center">
             No Podcasts Found
           </div>
         )}

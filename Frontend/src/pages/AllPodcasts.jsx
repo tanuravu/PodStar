@@ -10,7 +10,7 @@ const AllPodcasts = () => {
   useEffect(() => {
     const fetchPodcasts = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/v1/get-podcasts");
+        const res = await axios.get("http://localhost:3000/api/v1/get-podcasts");
         setPodcasts(res.data.data);
       } catch (error) {
         console.error("Failed to fetch podcasts:", error);
@@ -60,7 +60,7 @@ const AllPodcasts = () => {
               </div>
             ))
           ) : (
-            <div className="text-3xl font-bold text-zinc-400 h-screen flex items-center justify-center">
+            <div className="text-3xl font-bold text-zinc-400 h-screen flex">
               No Podcasts Found
             </div>
           )}

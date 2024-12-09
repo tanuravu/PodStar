@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import MainLayout from './layout/MainLayout';
 import Home from "./pages/Home";
-import AuthLayout from "./layout/AuthLayout";
 import Signup from "./pages/Signup";
+import AuthLayout from "./layout/AuthLayout";
 import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 import Categories from "./pages/Categories";
 import Profile from "./pages/Profile";
-import { useEffect } from 'react';
 import axios from 'axios';
 import {useDispatch} from "react-redux";
 import {authActions} from "./store/auth";
@@ -16,29 +17,29 @@ import AllPodcasts from './pages/AllPodcasts';
 import CategoriesPage from './pages/CategoriesPage';
 import DescriptionPage from './pages/DescriptionPage';
 import FavoritesPage from './pages/FavoritesPage';
-
-
+import AdminUsers from './pages/AdminUsers';
 
 const App = () => {
-  const dispatch= useDispatch();
-  useEffect(() =>{
-    const fetch = async()=> {
-    try {
-        const res= await axios.get("http://localhost:8080/api/v1/check-cookie", {withCredentials:true});
-        if(res.data.message){
-          dispatch(authActions.login());
-        }; /* console.log(res.data.message); */
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/api/v1/checkCookie", { withCredentials: true });
+        if (res.data.message) {
+          dispatch(authActions.login({ isAdmin: res.data.isAdmin })); // Pass isAdmin from response
+        }
+      } catch (error) {
+        console.log("Authentication check failed:", error);
+      }
     };
-    fetch();
-  }, []);
+    fetchAuthStatus();
+  }, [dispatch]);
   
   return (
-    <div className="">
+    <div>
       <Router>
-        <Routes >
+        <Routes>
           <Route path="/" element={<MainLayout/>}>
             {" "}
             <Route index element={<Home/>} />
@@ -48,14 +49,15 @@ const App = () => {
             <Route path="/all-podcasts" element={<AllPodcasts/>}/>
             <Route path="/categories/:cat" element={<CategoriesPage/>}/>
             <Route path="/description/:id" element={<DescriptionPage/>}/>
-            <Route path="/favorites" element={<FavoritesPage />} />
-            
-
+            <Route path="/favorites" element={<FavoritesPage/>}/>
           </Route>
           <Route path="/" element={<AuthLayout/>}>
             <Route path="/signup" element={<Signup/>} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/admin/login" element={<AdminLogin/>} />
           </Route> 
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsers/>} />
         </Routes>
       </Router>
     </div>

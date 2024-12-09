@@ -13,7 +13,7 @@ const YourPodcast = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get(
-        "http://localhost:8080/api/v1/get-user-podcasts",
+        "http://localhost:3000/api/v1/get-user-podcasts",
         { withCredentials: true }
       );
       setPodcasts(res.data.data);
@@ -24,7 +24,7 @@ const YourPodcast = () => {
   const handleDelete = async (podcastId) => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8080/api/v1/delete-podcast/${podcastId}`, {
+      await axios.delete(`http://localhost:3000/api/v1/delete-podcast/${podcastId}`, {
         withCredentials: true,
       });
       setPodcasts(Podcasts.filter((podcast) => podcast._id !== podcastId));
@@ -42,13 +42,12 @@ const YourPodcast = () => {
   const saveEditChanges = async (updatedData) => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/api/v1/update-podcast/${updatedData._id}`,
+        `http://localhost:3000/api/v1/update-podcast/${updatedData._id}`,
         updatedData,
         { withCredentials: true }
       );
   
       if (res.data?.data) {
-        // Update the state directly without reloading the entire list
         setPodcasts((prevPodcasts) =>
           prevPodcasts.map((podcast) =>
             podcast._id === updatedData._id ? res.data.data : podcast
@@ -58,10 +57,9 @@ const YourPodcast = () => {
   
       setEditModalOpen(false); // Close modal after successful update
     } catch (error) {
-      console.error('Failed to update podcast:', error);
+      console.error("Failed to update podcast:", error);
     }
   };
-  
   
   return (
     <div className="bg-zinc-900 text-zinc-50 px-4 lg:px-12 my-4">
@@ -93,13 +91,13 @@ const YourPodcast = () => {
             <div className="flex gap-2 mt-2 justify-between items-center border-t border-zinc-600 pt-2">
               <button
                 onClick={() => handleEdit(items)}
-                className="bg-zinc-700 text-white px-2 py-1 rounded  transition-all text-sm"
+                className="bg-zinc-700 text-white font-semibold px-2 py-1 rounded"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(items._id)}
-                className=" bg-zinc-700 px-2 py-1 rounded font-semibold text-red-600 transition-all text-sm"
+                className="bg-red-600 text-white-600 font-semibold px-2 py-1 rounded"
                 disabled={isLoading}
               >
                 Delete

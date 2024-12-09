@@ -14,7 +14,7 @@ const PodcastCard = ({ items, handleRemove, isFavorite, isAdmin }) => {
   const handleFavorite = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8080/api/v1/add-to-favorites/${items._id}`,
+        `http://localhost:3000/api/v1/add-to-favorites/${items._id}`,
         {},
         { withCredentials: true }
       );
@@ -33,10 +33,10 @@ const PodcastCard = ({ items, handleRemove, isFavorite, isAdmin }) => {
       e.preventDefault();
       dispatch(playerActions.setDiv());
       dispatch(
-        playerActions.changeImage(`http://localhost:8080/${items.frontImage}`)
+        playerActions.changeImage(`http://localhost:3000/${items.frontImage}`)
       );
       dispatch(
-        playerActions.changeSong(`http://localhost:8080/${items.audioFile}`)
+        playerActions.changeSong(`http://localhost:3000/${items.audioFile}`)
       );
     }
   };
@@ -44,7 +44,7 @@ const PodcastCard = ({ items, handleRemove, isFavorite, isAdmin }) => {
   const handleUpdate = async (updatedPodcast) => {
     try {
       await axios.put(
-        `http://localhost:8080/api/v1/update-podcast/${updatedPodcast._id}`,
+        `http://localhost:3000/api/v1/update-podcast/${updatedPodcast._id}`,
         updatedPodcast,
         { withCredentials: true }
       );
@@ -62,7 +62,7 @@ const PodcastCard = ({ items, handleRemove, isFavorite, isAdmin }) => {
         className="flex flex-col items-center"
       >
         <img
-          src={`http://localhost:8080/${items.frontImage}`}
+          src={`http://localhost:3000/${items.frontImage}`}
           alt={items.title}
           className="rounded w-full h-40 object-cover"
         />

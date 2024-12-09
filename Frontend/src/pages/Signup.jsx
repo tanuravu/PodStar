@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 import ErrorPage from "./ErrorPage.jsx";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const Signup = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/v1/sign-up",
+        "http://localhost:3000/api/v1/sign-up",
         Values
       );
       navigate("/login");
@@ -39,79 +39,80 @@ const Signup = () => {
       ) : (
         <div className="h-screen bg-zinc-900 flex items-center justify-center">
           <ToastContainer position="top-center" draggable />
-          <div className="w-4/6 md:w-3/6 lg:w-2/6 bg-zinc-800 rounded-lg shadow-2xl p-8 flex flex-col items-center transform transition-transform duration-500 hover:scale-105 h:shadow-[0_0_25px_5px_rgba(255,255,255,0.3)]">
-            <Link
-              to="/"
-              className="text-3xl font-extrabold text-zinc-50 mb-8 hover:animate-pulse"
-            >
-              PodStar
-            </Link>
-            <div className="w-full">
-              <div className="flex flex-col mt-4">
-                <label
-                  htmlFor="username"
-                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
-                >
+          <div className="w-11/12 max-w-md bg-zinc-800 text-white p-8 rounded-lg shadow-xl">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <Link to="/" className="text-3xl font-bold text-white">
+                PODSTAR
+              </Link>
+              <p className="text-gray-400 mt-2">
+                Join us! Create an account to get started.
+              </p>
+            </div>
+            {/* Signup Form */}
+            <div className="space-y-4">
+              {/* Username Input */}
+              <div>
+                <label className="block text-sm font-medium mb-1" htmlFor="username">
                   Username
                 </label>
                 <input
-                  id="username"
                   type="text"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
-                  required
-                  placeholder="Enter your username"
+                  id="username"
                   name="username"
                   value={Values.username}
                   onChange={change}
+                  placeholder="Enter your username"
+                  className="w-full px-4 py-2 bg-gray-700 text-gray-200 rounded-lg outline-none border border-gray-600 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              <div className="flex flex-col mt-6">
-                <label
-                  htmlFor="email"
-                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
-                >
-                  Email
+              {/* Email Input */}
+              <div>
+                <label className="block text-sm font-medium mb-1" htmlFor="email">
+                  Email Address
                 </label>
                 <input
-                  id="email"
                   type="email"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
-                  required
-                  placeholder="Enter your email"
+                  id="email"
                   name="email"
                   value={Values.email}
                   onChange={change}
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 bg-gray-700 text-gray-200 rounded-lg outline-none border border-gray-600 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              <div className="flex flex-col mt-6">
-                <label
-                  htmlFor="password"
-                  className="text-zinc-400 font-medium transition-transform duration-300 hover:text-zinc-200"
-                >
+              {/* Password Input */}
+              <div>
+                <label className="block text-sm font-medium mb-1" htmlFor="password">
                   Password
                 </label>
                 <input
-                  id="password"
                   type="password"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none transform transition-transform duration-300 focus:scale-105"
-                  required
-                  placeholder="Enter your password"
+                  id="password"
                   name="password"
                   value={Values.password}
                   onChange={change}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-2 bg-gray-700 text-gray-200 rounded-lg outline-none border border-gray-600 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
+            </div>
+            {/* Submit Button */}
+            <div className="mt-6">
               <button
                 onClick={handleSubmit}
-                className="w-full py-3 mt-8 bg-gradient-to-r from-zinc-600 to-zinc-500 text-white font-semibold rounded-lg hover:from-zinc-500 hover:to-zinc-400 transform transition-transform duration-300 hover:scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                className="w-full px-4 py-2 bg-zinc-500 hover:bg-green-800 text-white font-semibold text-lg rounded-lg shadow-md transition-transform transform hover:scale-105"
               >
                 Signup
               </button>
-              <p className="text-center text-zinc-400 mt-6">
+            </div>
+            {/* Login Link */}
+            <div className="mt-4 text-center">
+              <p className="text-gray-400">
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium text-zinc-300 hover:text-zinc-100 transition-transform duration-300 hover:scale-105"
+                  className="text-blue-700 hover:text-green-500 font-medium"
                 >
                   Login
                 </Link>

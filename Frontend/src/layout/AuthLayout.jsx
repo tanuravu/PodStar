@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {Outlet} from "react-router-dom";
 
 const AuthLayout = () => {
@@ -6,8 +6,7 @@ const AuthLayout = () => {
     <div>
       <Outlet/>
     </div>
-    
-  );
-};
+  )
+}
 
-export default AuthLayout;
+export default AuthLayout

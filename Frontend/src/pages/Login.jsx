@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -14,7 +14,7 @@ const Login = () => {
   const [Values, setValues] = useState({
     email: "",
     password: "",
-  });
+  }); 
 
   const change = (e) => {
     const { name, value } = e.target;
@@ -24,14 +24,16 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/v1/sign-in",
+        "http://localhost:3000/api/v1/sign-in",
         Values,
         {
           withCredentials: true,
         }
       );
-      dispatch(authActions.login());
+
+      dispatch(authActions.login({ isAdmin: false, token: res.data.token }));
       navigate("/profile");
+      console.log(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -44,63 +46,67 @@ const Login = () => {
       ) : (
         <div className="h-screen bg-zinc-900 flex items-center justify-center">
           <ToastContainer position="top-center" draggable />
-          <div className="w-4/6 md:w-3/6 lg:w-2/6 bg-zinc-800 rounded-lg shadow-lg p-8 flex flex-col items-center shadow-[0_0_20px_5px_rgba(255,255,255,0.2)]">
-            <Link
-              to="/"
-              className="text-3xl font-extrabold text-zinc-50 mb-8"
-            >
-              PodStar
-            </Link>
-            <div className="w-full">
-              <div className="flex flex-col mt-4">
-                <label
-                  htmlFor="email"
-                  className="text-zinc-400 font-medium"
-                >
-                  Email
+          <div className="w-11/12 max-w-md bg-zinc-800 text-white p-8 rounded-lg shadow-xl">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <Link to="/" className="text-3xl font-bold text-white">
+                PODSTAR
+              </Link>
+              <p className="text-gray-400 mt-2">
+                Welcome back! Please log in to continue.
+              </p>
+            </div>
+            {/* Login Form */}
+            <div className="space-y-4">
+              {/* Email Input */}
+              <div>
+                <label className="block text-sm font-medium mb-1" htmlFor="email">
+                  Email Address
                 </label>
                 <input
-                  id="email"
                   type="email"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
-                  required
-                  placeholder="Enter your email"
+                  id="email"
                   name="email"
                   value={Values.email}
                   onChange={change}
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 bg-gray-700 text-gray-200 rounded-lg outline-none border border-gray-600 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              <div className="flex flex-col mt-6">
-                <label
-                  htmlFor="password"
-                  className="text-zinc-400 font-medium"
-                >
+              {/* Password Input */}
+              <div>
+                <label className="block text-sm font-medium mb-1" htmlFor="password">
                   Password
                 </label>
                 <input
-                  id="password"
                   type="password"
-                  className="mt-2 px-4 py-3 bg-zinc-700 text-zinc-200 rounded-lg shadow-md shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:ring-2 focus:ring-zinc-500 outline-none border-none"
-                  required
-                  placeholder="Enter your password"
+                  id="password"
                   name="password"
                   value={Values.password}
                   onChange={change}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-2 bg-gray-700 text-gray-200 rounded-lg outline-none border border-gray-600 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
+            </div>
+            {/* Submit Button */}
+            <div className="mt-6">
               <button
                 onClick={handleSubmit}
-                className="w-full py-3 mt-8 bg-gradient-to-r from-zinc-600 to-zinc-500 text-white font-semibold rounded-lg shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                className="w-full px-4 py-2 bg-zinc-500 hover:bg-green-800 text-white font-semibold text-lg rounded-lg shadow-md transition-transform transform hover:scale-105"
               >
                 Login
               </button>
-              <p className="text-center text-zinc-400 mt-6">
+            </div>
+            {/* Signup Link */}
+            <div className="mt-4 text-center">
+              <p className="text-gray-400">
                 Don't have an account?{" "}
                 <Link
                   to="/signup"
-                  className="font-medium text-zinc-300 hover:text-zinc-100"
+                  className="text-blue-700 hover:text-green-500 font-medium"
                 >
-                  Signup
+                  Sign up
                 </Link>
               </p>
             </div>

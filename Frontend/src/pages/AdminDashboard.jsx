@@ -5,7 +5,7 @@ import { authActions } from "../store/auth";
 import axios from "axios"; // Import axios
 import { toast } from "react-toastify"; // Optional: Add toast for feedback
 import "react-toastify/dist/ReactToastify.min.css"; // Import Toast styles
-
+import ReportedPodcasts from "./ReportedPodcasts";
 const AdminDashboard = () => {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   const dispatch = useDispatch(); // Initialize dispatch
@@ -76,6 +76,12 @@ const AdminDashboard = () => {
           className="block text-white hover:bg-zinc-700 px-4 py-2 rounded-lg"
         >
           Podcasts
+        </Link>
+        <Link
+          to="/admin/reports"
+          className="block text-white hover:bg-zinc-700 px-4 py-2 rounded-lg"
+        >
+          Reported podcasts
         </Link>
       </nav>
 

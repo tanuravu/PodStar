@@ -19,6 +19,7 @@ import DescriptionPage from './pages/DescriptionPage';
 import FavoritesPage from './pages/FavoritesPage';
 import AdminUsers from './pages/AdminUsers';
 import AdminPodcasts from './pages/AdminPodcasts';
+import ReportedPodcasts from './pages/ReportedPodcasts';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,25 +42,26 @@ const App = () => {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<MainLayout/>}>
+          <Route path="/" element={<MainLayout />}>
             {" "}
-            <Route index element={<Home/>} />
-            <Route path="/categories" element={<Categories/>}/>
-            <Route path="/profile" element={<Profile/>}/>
-            <Route path="/add-podcast" element={<AddPodcast/>}/>
-            <Route path="/all-podcasts" element={<AllPodcasts/>}/>
-            <Route path="/categories/:cat" element={<CategoriesPage/>}/>
-            <Route path="/description/:id" element={<DescriptionPage/>}/>
-            <Route path="/favorites" element={<FavoritesPage/>}/>
+            <Route index element={<Home />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/add-podcast" element={<AddPodcast />} />
+            <Route path="/all-podcasts" element={<AllPodcasts />} />
+            <Route path="/categories/:cat" element={<CategoriesPage />} />
+            <Route path="/description/:id" element={<DescriptionPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/reports" element={< ReportedPodcasts/>} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/podcasts" element={<AdminPodcasts />} />
           </Route>
-          <Route path="/" element={<AuthLayout/>}>
-            <Route path="/signup" element={<Signup/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/admin/login" element={<AdminLogin/>} />
-          </Route> 
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<AdminUsers/>} />
-          <Route path="/admin/podcasts" element={<AdminPodcasts/>} />
+          <Route path="/" element={<AuthLayout />}>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+          </Route>
         </Routes>
       </Router>
     </div>

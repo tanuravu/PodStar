@@ -4,12 +4,13 @@ const Category = require("../models/category");
 const User = require("../models/user");
 const Podcast = require("../models/podcast");
 const router = require("express").Router();
+const Report = require("../models/report");
 
 // Admin: Fetch all podcasts (with user details)
-router.get("/all-podcasts", /* authMiddleware, adminMiddleware, */ async (req, res) => {
+router.get("/all-podcasts", async (req, res) => {
   try {
     const podcasts = await Podcast.find()
-      .populate("category")
+      .populate("category","categoryName")
       .populate("user", "username email -_id")
       .sort({ createdAt: -1 });
 
@@ -20,59 +21,80 @@ router.get("/all-podcasts", /* authMiddleware, adminMiddleware, */ async (req, r
 });
 
 // Admin: Delete any podcast
-router.delete("/admin-delete-podcast/:id", /* authMiddleware, adminMiddleware, */ async (req, res) => {
+router.delete("/admin-delete-podcast/:id", async (req, res) => {
   try {
     const podcastId = req.params.id;
 
+    // Fetch the podcast to ensure it exists
     const podcast = await Podcast.findById(podcastId);
     if (!podcast) {
       return res.status(404).json({ message: "Podcast not found" });
     }
 
-    // Remove references from related models
+    // Remove references from related collections
     await User.findByIdAndUpdate(podcast.user, { $pull: { podcasts: podcastId } });
     await Category.findByIdAndUpdate(podcast.category, { $pull: { podcasts: podcastId } });
+
+    // Delete the podcast
     await Podcast.findByIdAndDelete(podcastId);
 
     res.status(200).json({ message: "Podcast deleted successfully" });
   } catch (error) {
+    console.error("Error deleting podcast:", error);
     res.status(500).json({ message: "Failed to delete podcast", error });
   }
 });
 
-// Admin: Handle reported podcasts (Mark as reviewed or delete)
-router.post("/review-reported-podcast/:id", /* authMiddleware, adminMiddleware, */ async (req, res) => {
+// Report a podcast
+router.post("/report-podcast/:podcastId",authMiddleware, async (req, res) => {
   try {
-    const { id } = req.params;
-    const { action } = req.body; // action: "markReviewed" or "delete"
+    const { podcastId } = req.params;
+    const userId = req.user.id; // Assuming authMiddleware sets the user in req.user
 
-    if (action === "markReviewed") {
-      const podcast = await Podcast.findByIdAndUpdate(
-        id,
-        { isReviewed: true },
-        { new: true }
-      );
-      if (!podcast) {
-        return res.status(404).json({ message: "Podcast not found" });
-      }
-      return res.status(200).json({ message: "Podcast marked as reviewed" });
-    } else if (action === "delete") {
-      const podcast = await Podcast.findById(id);
-      if (!podcast) {
-        return res.status(404).json({ message: "Podcast not found" });
-      }
-
-      // Remove references
-      await User.findByIdAndUpdate(podcast.user, { $pull: { podcasts: id } });
-      await Category.findByIdAndUpdate(podcast.category, { $pull: { podcasts: id } });
-      await Podcast.findByIdAndDelete(id);
-
-      return res.status(200).json({ message: "Podcast deleted successfully" });
-    } else {
-      return res.status(400).json({ message: "Invalid action" });
+    // Check if the report already exists
+    const existingReport = await Report.findOne({ podcast: podcastId, user: userId });
+    if (existingReport) {
+      return res.status(400).json({ message: "You have already reported this podcast." });
     }
+    // Create a new report
+    const report = new Report({
+      podcast: podcastId,
+      user: userId,
+      reason: req.body.reason || "No reason provided",
+    });
+
+    await report.save();
+    res.status(200).json({ message: "Report submitted successfully." });
   } catch (error) {
-    res.status(500).json({ message: "Failed to review reported podcast", error });
+    res.status(500).json({ message: "Failed to report podcast.", error });
+  }
+});
+
+// Fetch reported podcasts for admin
+router.get("/admin/reported-podcasts", async (req, res) => {
+  try {
+    const reports = await Report.aggregate([
+      // Group by podcast ID and count reports
+      { $group: { _id: "$podcast", count: { $sum: 1 } } },
+      // Convert _id to ObjectId to match Podcasts collection
+      { $addFields: { _id: { $toObjectId: "$_id" } } },
+      // Lookup podcast details
+      {
+        $lookup: {
+          from: "podcasts", // Collection name in MongoDB
+          localField: "_id",
+          foreignField: "_id",
+          as: "podcastDetails",
+        },
+      },
+      // Filter out entries where podcastDetails is empty
+      { $match: { podcastDetails: { $ne: [] } } },
+    ]);
+
+    res.status(200).json({ message: "Reported podcasts fetched successfully.", data: reports });
+  } catch (error) {
+    console.error("Failed to fetch reported podcasts:", error);
+    res.status(500).json({ message: "Failed to fetch reported podcasts.", error });
   }
 });
 
@@ -223,7 +245,7 @@ router.put("/update-podcast/:id", async (req, res) => {
   }
 });
 
-// Route to download the podcast audio file
+//download podcast
 router.get("/download-podcast/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -246,7 +268,5 @@ router.get("/download-podcast/:id", async (req, res) => {
     return res.status(500).json({ message: "Failed to fetch podcast", error });
   }
 });
-
-
 
 module.exports = router;

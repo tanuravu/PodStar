@@ -24,11 +24,6 @@ app.use("/api/v1",catApi);
 app.use("/api/v1",PodcastApi);
 app.use("/api/v1",AdminApi);
 
-// Error handling middleware (optional but recommended)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: "Something went wrong!", error: err.message });
-});
 
 // Start the server
 const PORT = process.env.PORT;

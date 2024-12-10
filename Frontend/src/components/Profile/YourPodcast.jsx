@@ -36,7 +36,7 @@ const YourPodcast = () => {
 
   const handleEdit = (podcast) => {
     setEditData(podcast);
-    setEditModalOpen(true); // Open modal with the podcast data
+    setEditModalOpen(true); 
   };
 
   const saveEditChanges = async (updatedData) => {
@@ -55,7 +55,7 @@ const YourPodcast = () => {
         );
       }
   
-      setEditModalOpen(false); // Close modal after successful update
+      setEditModalOpen(false); 
     } catch (error) {
       console.error("Failed to update podcast:", error);
     }

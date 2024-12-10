@@ -27,12 +27,21 @@ const CategoriesPage = () => {
 
   // Function to update the category of the podcast after edit
   const updatePodcastCategory = (updatedPodcast) => {
-    setPodcasts((prevPodcasts) =>
-      prevPodcasts.map((podcast) =>
-        podcast._id === updatedPodcast._id ? updatedPodcast : podcast
-      )
-    );
+    if (updatedPodcast.category?.categoryName !== cat) {
+      // If the category has changed, remove the podcast from the current category
+      setPodcasts((prevPodcasts) =>
+        prevPodcasts.filter((podcast) => podcast._id !== updatedPodcast._id)
+      );
+    } else {
+      // Otherwise, just update the podcast in the current category
+      setPodcasts((prevPodcasts) =>
+        prevPodcasts.map((podcast) =>
+          podcast._id === updatedPodcast._id ? updatedPodcast : podcast
+        )
+      );
+    }
   };
+  
 
   // Handle search input change
   const handleSearchChange = (e) => {

@@ -121,7 +121,7 @@ const PodcastCard = ({ items, handleRemove, isFavorite, isAdmin }) => {
         {!isFavorite && (
           <button
             onClick={handleFavorite}
-            className="text-red-500"
+            className="text-red-500 hover:scale-125 transition-transform duration-200"
             title="Favorites"
           >
             <MdFavorite size={24} />

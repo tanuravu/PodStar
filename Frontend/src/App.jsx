@@ -27,7 +27,7 @@ const App = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/checkCookie", { withCredentials: true });
+        const res = await axios.get("https://podstar-ixgb.onrender.com/api/v1/checkCookie", { withCredentials: true });
         if (res.data.message) {
           dispatch(authActions.login({ isAdmin: res.data.isAdmin })); // Pass isAdmin from response
         }
